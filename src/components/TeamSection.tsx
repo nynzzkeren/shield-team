@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import { Shield, Code, Crown, User } from "lucide-react";
 
@@ -11,7 +12,7 @@ interface TeamMember {
 }
 
 export default function TeamSection() {
-  const team: { category: string; icon: JSX.Element; members: TeamMember[] }[] = [
+  const team: { category: string; icon: React.ReactNode; members: TeamMember[] }[] = [
     {
       category: "Founder",
       icon: <Crown className="w-5 h-5 text-amber-500" />,
@@ -24,7 +25,7 @@ export default function TeamSection() {
       category: "Web Developer",
       icon: <Code className="w-5 h-5 text-blue-500" />,
       members: [
-        { name: "Nynzz", role: "Full Stack Developer", avatar: "https://cdn.discordapp.com/attachments/1515588648639266966/1516363709893574738/Snapchat-1562181961.jpg?ex=6a325f41&is=6a310dc1&hm=9462cff3e893ce364332246357fde0cf4108036b9ea5db21c5363e829308607f", category: "Developer" },
+        { name: "Nynzz", role: "Full Stack Developer", avatar: "https://cdn.discordapp.com/avatars/1411989784569708555/caa123ab1e5d0c1377a67dc9130a0b28.png?size=4096", category: "Developer" },
       ]
     },
     {
@@ -41,7 +42,7 @@ export default function TeamSection() {
         { name: "Kiz", role: "Moderator", avatar: "https://cdn.discordapp.com/avatars/1416759672488202314/fdd2fe491b8dbca4d5b93e25a345804b.png?size=4096", category: "Staff" },
         { name: "Cecelia", role: "Moderator", avatar: "https://cdn.discordapp.com/avatars/1436351088491106446/cd7f0116d5927187cbfe9c8c52849d6e.png?size=4096", category: "Staff" },
         { name: "Reiji", role: "Moderator", avatar: "https://cdn.discordapp.com/avatars/994109974731047063/f44ec36d7e8bd0a09504fb8cc9183959.png?size=4096", category: "Staff" },
-        { name: "Nynzz", role: "Moderator", avatar: "https://cdn.discordapp.com/attachments/1515588648639266966/1516363709893574738/Snapchat-1562181961.jpg?ex=6a325f41&is=6a310dc1&hm=9462cff3e893ce364332246357fde0cf4108036b9ea5db21c5363e829308607f", category: "Staff" },
+        { name: "Nynzz", role: "Moderator", avatar: "https://cdn.discordapp.com/avatars/1411989784569708555/caa123ab1e5d0c1377a67dc9130a0b28.png?size=4096", category: "Staff" },
       ]
     }
   ];

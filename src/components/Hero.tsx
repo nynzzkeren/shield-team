@@ -23,36 +23,55 @@ export default function Hero() {
     {
        name: "Bye - Altera (Slowed)",
       url: "https://files.catbox.moe/pxr2qd.mp3",
-      art: "https://cdn.discordapp.com/attachments/1515588648639266966/1516322123088658432/Screenshot_20260616_130203_Chrome.jpg?ex=6a323886&is=6a30e706&hm=114c2649dc58068206f93eef73728b65292ea0b63e16e47098706a94732b8078&"
+      art: "https://files.catbox.moe/m7vo05.mp3"
     },
     {
       name: "Mood - Yagi Mael (Slowed)",
       url: "https://files.catbox.moe/m7vo05.mp3",
-      art: "https://cdn.discordapp.com/attachments/1515588648639266966/1516322123088658432/Screenshot_20260616_130203_Chrome.jpg?ex=6a323886&is=6a30e706&hm=114c2649dc58068206f93eef73728b65292ea0b63e16e47098706a94732b8078&"
+      art: "https://files.catbox.moe/m7vo05.mp3"
     }
   ];
 
   const currentTrack = tracks[currentTrackIndex];
 
   useEffect(() => {
-    // Autoplay attempt
-    const audio = audioRef.current;
-    if (audio) {
-      audio.play().catch(e => console.log("Autoplay blocked, user interaction required"));
-      setIsPlaying(true);
-    }
-  }, []);
+    const handleFirstInteraction = () => {
+      if (audioRef.current && !isPlaying) {
+        audioRef.current.play().then(() => {
+          setIsPlaying(true);
+        }).catch(e => console.log("Autoplay still blocked"));
+      }
+      window.removeEventListener('click', handleFirstInteraction);
+    };
+
+    window.addEventListener('click', handleFirstInteraction);
+    return () => window.removeEventListener('click', handleFirstInteraction);
+  }, [isPlaying]);
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
 
   const nextTrack = () => {
     setCurrentTrackIndex((prev) => (prev + 1) % tracks.length);
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }, 100);
   };
 
-  const BANNER_IMAGE = "https://cdn.discordapp.com/attachments/1515588865468137542/1516049983814631584/IMG-20260615-WA0075.jpg?ex=6a313b12&is=6a2fe992&hm=0fdbda1e5b930c013ba001265eb147353386281254220f46caee114207279e03&"; 
-  const PROFILE_IMAGE = "https://cdn.discordapp.com/attachments/1515588865468137542/1516040284843282622/IMG-20260615-WA0070.jpg?ex=6a31320a&is=6a2fe08a&hm=bcd087218b68961db5ef992269b53ef7803e5b76c981a5a4ff7089d630cab767&"; 
+  const BANNER_IMAGE = "https://cdn.discordapp.com/attachments/1515588648639266966/1516436636353957908/IMG-20260615-WA00751.jpg?ex=6a32a32c&is=6a3151ac&hm=4df3c0f8e62705f67a3d0c42d9566d0c5d1d6f40f4ccbd3a0987e57fa39e1d79&"; 
+  const PROFILE_IMAGE = "https://cdn.discordapp.com/attachments/1515588648639266966/1516436635988791447/IMG-20260615-WA0070.jpg?ex=6a32a32c&is=6a3151ac&hm=abcedd356fd74f7d6f4641a8f6ec76656e753b84bde155ef2f5b1b964925bc36&"; 
+  const ALBUM_ART = "https://cdn.discordapp.com/attachments/1515588648639266966/1516322123088658432/Screenshot_20260616_130203_Chrome.jpg?ex=6a323886&is=6a30e706&hm=114c2649dc58068206f93eef73728b65292ea0b63e16e47098706a94732b8078&";
 
   useEffect(() => {
     if (bannerRef.current) {
@@ -70,7 +89,7 @@ export default function Hero() {
   }, []);
 
   const [copied, setCopied] = useState(false);
-  const loaderScript = `loadstring(game:HttpGet("https://shieldteam.vercel.app/loader"))()`;
+  const loaderScript = `loadstring(game:HttpGet("https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua"))()`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(loaderScript);
@@ -81,12 +100,12 @@ export default function Hero() {
   return (
     <div className="relative pt-20">
       {/* Banner Area */}
-      <div className="relative h-[550px] w-full overflow-hidden">
+      <div className="relative h-[250px] md:h-[550px] w-full overflow-hidden">
         <div className="absolute inset-0 bg-zinc-900 flex items-center justify-center border-b border-white/5">
           <img 
             ref={bannerRef}
             src={BANNER_IMAGE} 
-            className="w-full h-[120%] object-cover object-center absolute -top-[10%]" 
+            className="w-full h-[110%] md:h-[120%] object-cover object-center absolute -top-[5%] md:-top-[10%]" 
             alt="Banner"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
@@ -97,86 +116,84 @@ export default function Hero() {
       <div className="container mx-auto px-6 -mt-20 relative z-20 pb-20">
         
         {/* Top Stats & Music Player */}
-        <div className="flex justify-between items-center mb-8 gap-4">
-            <div className="flex gap-4">
+        <div className="flex flex-col lg:flex-row justify-between items-center mb-8 gap-4">
+            <div className="grid grid-cols-2 md:flex gap-3 w-full lg:w-auto">
                 {[
-                    { label: "Total Executes", value: "50,000+" },
+                    { label: "Total Executes", value: "543,361+" },
                     { label: "Total Scripts", value: "6" },
-                    { label: "Keys Generated", value: "15,000+" }
+                    { label: "Keys Generated", value: "17,101+" }
                 ].map((stat, i) => (
-                    <div key={i} className="bg-[#0a0a12]/80 backdrop-blur border border-white/5 px-6 py-3 rounded-2xl">
-                        <div className="text-primary font-black text-xl">{stat.value}</div>
-                        <div className="text-zinc-500 text-[10px] uppercase tracking-widest">{stat.label}</div>
+                    <div key={i} className={`bg-[#0a0a12]/80 backdrop-blur border border-white/5 px-4 md:px-6 py-3 rounded-2xl flex-1 ${i === 2 ? 'col-span-2 md:flex-none' : ''}`}>
+                        <div className="text-primary font-black text-lg md:text-xl">{stat.value}</div>
+                        <div className="text-zinc-500 text-[9px] md:text-[10px] uppercase tracking-widest">{stat.label}</div>
                     </div>
                 ))}
             </div>
 
             {/* Music Player */}
-            <div className="bg-[#0a0a12]/80 backdrop-blur border border-white/5 p-3 rounded-full flex items-center gap-4">
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="w-10 h-10 rounded-full overflow-hidden border border-white/10">
-                    <img src={currentTrack.art} className="w-full h-full object-cover" alt="Album Art" />
-                </motion.div>
-                <div className="flex flex-col">
-                  <div className="text-xs text-white font-bold truncate max-w-[150px]">{currentTrack.name}</div>
+            <div className="bg-[#0a0a12]/80 backdrop-blur border border-white/5 p-2 md:p-3 rounded-full flex items-center gap-3 md:gap-4 w-full md:w-auto justify-between md:justify-start">
+                <div className="flex items-center gap-3">
+                  <motion.div animate={isPlaying ? { rotate: 360 } : {}} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-white/10 shrink-0">
+                      <img src={ALBUM_ART} className="w-full h-full object-cover" alt="Album Art" />
+                  </motion.div>
+                  <div className="flex flex-col min-w-0">
+                    <div className="text-[10px] md:text-xs text-white font-bold truncate max-w-[120px] md:max-w-[150px]">{currentTrack.name}</div>
+                  </div>
                 </div>
                 <div className="flex items-center gap-1">
+                  <button onClick={togglePlay} className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors">
+                    {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+                  </button>
                   <button onClick={nextTrack} className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
                     <SkipForward className="w-4 h-4" />
                   </button>
                 </div>
-                <audio ref={audioRef} src={currentTrack.url} loop onEnded={nextTrack} autoPlay />
+                <audio ref={audioRef} src={currentTrack.url} loop onEnded={nextTrack} />
             </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-end gap-6 mb-12">
+        <div className="flex flex-col md:flex-row items-center md:items-end text-center md:text-left gap-6 mb-12">
           {/* Avatar */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-40 h-40 rounded-3xl bg-[#0a0a12] border-4 border-[#050508] relative group overflow-hidden flex items-center justify-center purple-glow"
+            className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-[#0a0a12] border-4 border-[#050508] relative group overflow-hidden flex items-center justify-center purple-glow shrink-0"
           >
             <img src={PROFILE_IMAGE} className="w-full h-full object-cover" alt="Profile" />
           </motion.div>
 
           {/* Info */}
-          <div className="flex-1 pb-2">
+          <div className="flex-1 pb-2 w-full">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex items-center gap-3 mb-2"
+              className="flex flex-col md:flex-row items-center gap-3 mb-4 md:mb-2"
             >
-              <h1 className="text-5xl font-black tracking-tighter text-white flex items-center gap-3 uppercase italic">
+              <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-white flex items-center gap-3 uppercase italic">
                 Shield Team
-                <CheckCircle className="w-8 h-8 text-primary fill-primary/10" />
+                <CheckCircle className="w-6 h-6 md:w-8 md:h-8 text-primary fill-primary/10" />
               </h1>
-              <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase tracking-widest">
+              <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[9px] md:text-[10px] font-black text-primary uppercase tracking-widest">
                 Elite Status
               </span>
             </motion.div>
-            <p className="text-zinc-400 max-w-2xl mb-6 text-lg font-medium italic">
+            <p className="text-zinc-400 max-w-2xl mb-8 md:mb-6 text-sm md:text-lg font-medium italic">
               UNSTOPPABLE DOMINANCE. The ultimate arsenal for Roblox exploitation. 
               Encrypted, Undetected, and Lethal.
             </p>
             
-            {/* Join Discord with Icon */}
-            <Button 
-                onClick={() => window.open('https://discord.gg/4tpJzxfY', '_blank')}
-                className="bg-[#5865F2] hover:bg-[#5865F2]/90 text-white rounded-xl gap-2 px-6"
-            >
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.97.077.077 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.126 10.293 10.293 0 0 0 .372-.29.077.077 0 0 1 .077-.01 12.35 12.35 0 0 0 10.74 0 .077.077 0 0 1 .078.01 10.706 10.706 0 0 0 .372.29.077.077 0 0 1-.006.126 12.91 12.91 0 0 1-1.873.892.077.077 0 0 0-.04.106c.394.69.835 1.35 1.225 1.97a.078.078 0 0 0 .084.028 19.9 19.9 0 0 0 5.994-3.03.077.077 0 0 0 .032-.057c.504-5.385-.88-10.02-3.86-13.66a.07.07 0 0 0-.032-.027zM8.02 15.332c-1.185 0-2.158-1.087-2.158-2.427 0-1.34.955-2.427 2.158-2.427 1.22 0 2.175 1.087 2.158 2.427 0 1.34-.955 2.427-2.158 2.427zm7.974 0c-1.185 0-2.158-1.087-2.158-2.427 0-1.34.955-2.427 2.158-2.427 1.22 0 2.175 1.087 2.158 2.427 0 1.34-.954 2.427-2.158 2.427z"/></svg>
-                Join Discord
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <Button 
+                  onClick={() => window.open('https://discord.gg/4tpJzxfY', '_blank')}
+                  className="w-full sm:w-auto bg-[#5865F2] hover:bg-[#5865F2]/90 text-white rounded-xl gap-2 px-8 py-6 h-auto"
+              >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.97.077.077 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.126 10.293 10.293 0 0 0 .372-.29.077.077 0 0 1 .077-.01 12.35 12.35 0 0 0 10.74 0 .077.077 0 0 1 .078.01 10.706 10.706 0 0 0 .372.29.077.077 0 0 1-.006.126 12.91 12.91 0 0 1-1.873.892.077.077 0 0 0-.04.106c.394.69.835 1.35 1.225 1.97a.078.078 0 0 0 .084.028 19.9 19.9 0 0 0 5.994-3.03.078.078 0 0 0 .084-.028 19.9 19.9 0 0 0 5.994-3.03.077.077 0 0 0 .032-.057c.504-5.385-.88-10.02-3.86-13.66a.07.07 0 0 0-.032-.027zM8.02 15.332c-1.185 0-2.158-1.087-2.158-2.427 0-1.34.955-2.427 2.158-2.427 1.22 0 2.175 1.087 2.158 2.427 0 1.34-.955 2.427-2.158 2.427zm7.974 0c-1.185 0-2.158-1.087-2.158-2.427 0-1.34.955-2.427 2.158-2.427 1.22 0 2.175 1.087 2.158 2.427 0 1.34-.954 2.427-2.158 2.427z"/></svg>
+                  Join Discord
+              </Button>
+              <ChangelogModal />
+            </div>
           </div>
-
-          {/* Action */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <ChangelogModal />
-          </motion.div>
         </div>
 
         {/* Loader Section */}
@@ -206,31 +223,31 @@ export default function Hero() {
               </div>
 
               <div className="relative">
-                <div className="absolute top-4 right-4 z-10">
+                <div className="flex justify-end mb-2 md:absolute md:top-4 md:right-4 md:z-10">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={copyToClipboard}
-                    className="h-9 px-4 bg-white/5 hover:bg-white/10 text-zinc-300 gap-2 border border-white/5 rounded-lg backdrop-blur-sm"
+                    className="h-8 md:h-9 px-3 md:px-4 bg-white/5 hover:bg-white/10 text-zinc-300 gap-2 border border-white/5 rounded-lg backdrop-blur-sm text-[10px] md:text-sm"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-4 h-4 text-emerald-500" />
+                        <Check className="w-3 h-3 md:w-4 md:h-4 text-emerald-500" />
                         <span className="text-emerald-500">Copied</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4" />
+                        <Copy className="w-3 h-3 md:w-4 md:h-4" />
                         <span>Copy Loader</span>
                       </>
                     )}
                   </Button>
                 </div>
-                <pre className="bg-[#050508] p-6 rounded-xl border border-white/5 font-mono text-sm text-violet-400 overflow-x-auto">
+                <pre className="bg-[#050508] p-4 md:p-6 rounded-xl border border-white/5 font-mono text-[10px] md:text-sm text-violet-400 overflow-x-auto clear-both">
                   <code>
                     <span className="text-zinc-500">-- Shield Team | Execute Script</span>
                     {"\n"}
-                    <span className="text-violet-400">loadstring</span>(game:<span className="text-blue-400">HttpGet</span>(<span className="text-emerald-400">&quot;https://shieldteam.vercel.app/loader&quot;</span>))()
+                    <span className="text-violet-400">loadstring</span>(game:<span className="text-blue-400">HttpGet</span>(<span className="text-emerald-400">&quot;https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua&quot;</span>))()
                   </code>
                 </pre>
               </div>

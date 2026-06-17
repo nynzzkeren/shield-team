@@ -56,14 +56,14 @@ export default function ScriptViewModal({ isOpen, onOpenChange, script }: Script
           </div>
         </div>
 
-        <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="p-5 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Changelog Terminal */}
           <div className="flex flex-col gap-3">
-             <div className="flex items-center gap-2 text-zinc-500 text-[10px] uppercase tracking-widest font-black">
+             <div className="flex items-center gap-2 text-zinc-500 text-[9px] md:text-[10px] uppercase tracking-widest font-black">
                 <Terminal className="w-3 h-3" />
                 System Changelogs
              </div>
-             <div className="flex-1 bg-black/40 border border-white/5 rounded-xl p-4 font-mono text-xs text-zinc-400 leading-relaxed min-h-[150px]">
+             <div className="flex-1 bg-black/40 border border-white/5 rounded-xl p-4 font-mono text-[10px] md:text-xs text-zinc-400 leading-relaxed min-h-[120px] md:min-h-[150px]">
                 {script.changelog.split('\n').map((line, i) => (
                   <div key={i} className="mb-1">
                     <span className="text-primary mr-2">➜</span>
@@ -76,7 +76,7 @@ export default function ScriptViewModal({ isOpen, onOpenChange, script }: Script
           {/* Loadstring Terminal */}
           <div className="flex flex-col gap-3">
              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-zinc-500 text-[10px] uppercase tracking-widest font-black">
+                <div className="flex items-center gap-2 text-zinc-500 text-[9px] md:text-[10px] uppercase tracking-widest font-black">
                    <ShieldCheck className="w-3 h-3" />
                    Loadstring Code
                 </div>
@@ -84,13 +84,13 @@ export default function ScriptViewModal({ isOpen, onOpenChange, script }: Script
                   variant="ghost" 
                   size="sm" 
                   onClick={copyToClipboard}
-                  className="h-7 px-3 bg-white/5 hover:bg-white/10 text-[10px] gap-2 rounded-lg"
+                  className="h-6 md:h-7 px-2 md:px-3 bg-white/5 hover:bg-white/10 text-[9px] md:text-[10px] gap-2 rounded-lg"
                 >
                    {copied ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
                    {copied ? "Copied" : "Copy"}
                 </Button>
              </div>
-             <div className="flex-1 bg-black/60 border border-white/5 rounded-xl p-4 font-mono text-xs text-violet-400 break-all relative group min-h-[150px]">
+             <div className="flex-1 bg-black/60 border border-white/5 rounded-xl p-4 font-mono text-[10px] md:text-xs text-violet-400 break-all relative group min-h-[120px] md:min-h-[150px]">
                 <code>{script.loadstring}</code>
                 <div className="absolute bottom-4 right-4 opacity-20 group-hover:opacity-100 transition-opacity">
                    <Sparkles className="w-4 h-4 text-primary" />
@@ -100,19 +100,19 @@ export default function ScriptViewModal({ isOpen, onOpenChange, script }: Script
         </div>
 
         {/* Modal Footer */}
-        <div className="p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-between">
-           <div className="flex items-center gap-6">
+        <div className="p-4 md:p-6 bg-white/[0.02] border-t border-white/5 flex items-center justify-between">
+           <div className="flex items-center gap-4 md:gap-6">
               <div className="flex flex-col">
-                 <span className="text-[10px] text-zinc-600 uppercase tracking-widest font-bold">Detection</span>
-                 <span className="text-xs text-emerald-500 font-black uppercase">Undetected</span>
+                 <span className="text-[9px] md:text-[10px] text-zinc-600 uppercase tracking-widest font-bold">Detection</span>
+                 <span className="text-[10px] md:text-xs text-emerald-500 font-black uppercase">Undetected</span>
               </div>
               <div className="flex flex-col">
-                 <span className="text-[10px] text-zinc-600 uppercase tracking-widest font-bold">Status</span>
-                 <span className="text-xs text-white font-black uppercase">Working</span>
+                 <span className="text-[9px] md:text-[10px] text-zinc-600 uppercase tracking-widest font-bold">Status</span>
+                 <span className="text-[10px] md:text-xs text-white font-black uppercase">Working</span>
               </div>
            </div>
-           <Button onClick={() => onOpenChange(false)} className="bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10 px-8">
-              Close Preview
+           <Button onClick={() => onOpenChange(false)} className="bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10 px-6 md:px-8 h-9 md:h-10 text-xs md:text-sm">
+              Close
            </Button>
         </div>
       </DialogContent>

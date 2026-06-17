@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const PROFILE_IMAGE = "https://cdn.discordapp.com/attachments/1515588865468137542/1516040284843282622/IMG-20260615-WA0070.jpg?ex=6a31320a&is=6a2fe08a&hm=bcd087218b68961db5ef992269b53ef7803e5b76c981a5a4ff7089d630cab767&";
+const PROFILE_IMAGE = "https://cdn.discordapp.com/attachments/1515588648639266966/1516436635988791447/IMG-20260615-WA0070.jpg?ex=6a32a32c&is=6a3151ac&hm=abcedd356fd74f7d6f4641a8f6ec76656e753b84bde155ef2f5b1b964925bc36&";
 
 export default function LoadingScreen() {
   const [loading, setLoading] = useState(true);

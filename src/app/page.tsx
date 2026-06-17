@@ -5,8 +5,9 @@ import Hero from "@/components/Hero";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import ScriptViewModal from "@/components/ScriptViewModal";
+import PremiumPurchaseModal from "@/components/PremiumPurchaseModal";
 import TeamSection from "@/components/TeamSection";
-import { Lock, Eye, MessageSquare, ShieldCheck, Shield, Users, Crown } from "lucide-react";
+import { Lock, Eye, MessageSquare, ShieldCheck, Shield, Users, Crown, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // --- Stats Component ---
@@ -54,6 +55,8 @@ interface Script {
 export default function Home() {
   const [selectedScript, setSelectedScript] = useState<Script | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<{name: string, price: string, duration: string} | null>(null);
   const [premiumKey, setPremiumKey] = useState("");
   const [premiumUnlocked, setPremiumUnlocked] = useState(false);
 
@@ -66,6 +69,11 @@ export default function Home() {
     }
   };
 
+  const handleBuyPremium = (tier: {name: string, price: string, duration: string}) => {
+    setSelectedTier(tier);
+    setIsPurchaseModalOpen(true);
+  };
+
   const scripts: Script[] = [
     { 
       title: "Fich", 
@@ -75,7 +83,7 @@ export default function Home() {
       desc: "Premium multi-tool for Fich. Dominate the leaderboards effortlessly.", 
       tags: ["BEST", "HOT"], 
       changelog: "Initial Release\nAuto-farm enabled\nAnti-ban v1", 
-      loadstring: 'loadstring(game:HttpGet("https://shieldteam.vercel.app/fich"))()' 
+      loadstring: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua"))()' 
     },
     { 
       title: "Blox Fruits", 
@@ -85,7 +93,7 @@ export default function Home() {
       desc: "The ultimate Blox Fruits powerhouse. Level up while you sleep.", 
       tags: ["OP", "SAFE"], 
       changelog: "Updated for New Update\nBetter Leviathan farm\nFixed Sea 3 crashes", 
-      loadstring: 'loadstring(game:HttpGet("https://shieldteam.vercel.app/bloxfruits"))()' 
+      loadstring: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua"))()' 
     },
     { 
       title: "Sailor Piece", 
@@ -95,7 +103,7 @@ export default function Home() {
       desc: "Complete dominance in Sailor Piece. Auto-quest and Boss-kill features.", 
       tags: ["NEW", "OP"], 
       changelog: "Added Auto-quest\nBoss notifier fixed\nPerformance boost", 
-      loadstring: 'loadstring(game:HttpGet("https://shieldteam.vercel.app/sailorpiece"))()' 
+      loadstring: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua"))()' 
     },
     { 
       title: "Violence District", 
@@ -105,7 +113,7 @@ export default function Home() {
       desc: "Crush the competition with precision aim and wallhacks.", 
       tags: ["RAGE", "TOP"], 
       changelog: "New Aimbot logic\nESP overhaul\nSpeedhack bypass", 
-      loadstring: 'loadstring(game:HttpGet("https://shieldteam.vercel.app/violence"))()' 
+      loadstring: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua"))()' 
     },
     { 
       title: "Sambung Kata", 
@@ -115,7 +123,7 @@ export default function Home() {
       desc: "Never lose a word game again. Instant dictionary lookups.", 
       tags: ["FUN", "AUTO"], 
       changelog: "Added ID dictionary\nSpeed settings\nWord filtering", 
-      loadstring: 'loadstring(game:HttpGet("https://shieldteam.vercel.app/sambungkata"))()' 
+      loadstring: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua"))()' 
     },
     { 
       title: "Grow a Garden 2", 
@@ -125,7 +133,7 @@ export default function Home() {
       desc: "The perfect garden companion. Auto-water and instant grow.", 
       tags: ["FREE", "SAFE"], 
       changelog: "Auto-water fixed\nAdded item buyer\nMap TP added", 
-      loadstring: 'loadstring(game:HttpGet("https://shieldteam.vercel.app/garden"))()' 
+      loadstring: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/KAN-FISCH/tesss/refs/heads/main/allscript.lua"))()' 
     },
   ];
 
@@ -301,7 +309,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
           <div className="bg-[#0a0a12]/50 border border-white/5 p-12 rounded-[32px] hover:bg-[#0a0a12] transition-colors group flex flex-col shadow-xl">
              <h3 className="text-2xl font-black text-white mb-2 uppercase italic tracking-tight">Recruit</h3>
              <div className="flex items-baseline gap-1 mb-8">
@@ -316,45 +324,87 @@ export default function Home() {
                   </li>
                 ))}
              </ul>
-             <Button variant="outline" className="w-full py-7 rounded-xl border border-white/10 text-white font-black hover:bg-white/5 transition-all uppercase tracking-widest">
+             <Button variant="outline" className="w-full py-7 rounded-xl border border-white/10 text-white font-black hover:bg-white/5 transition-all uppercase tracking-widest cursor-default">
                 Active Tier
              </Button>
           </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="relative p-[2px] rounded-[32px] overflow-hidden group h-full flex-1 shadow-2xl">
-               <div className="absolute inset-0 bg-gradient-to-br from-primary via-purple-600 to-pink-500 animate-gradient-x" />
-               <div className="relative bg-[#0a0a12] p-12 rounded-[31px] h-full flex flex-col">
-                  <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-[10px] font-black text-primary uppercase tracking-widest">
-                     Vanguard Choice
-                  </div>
-                  <h3 className="text-2xl font-black text-white mb-2 uppercase italic tracking-tight">The Elite</h3>
-                  <div className="flex items-baseline gap-1 mb-8">
-                     <span className="text-5xl font-black text-white">$5.99</span>
-                     <span className="text-zinc-500 text-sm font-bold uppercase">/ Month</span>
-                  </div>
-                  <ul className="space-y-4 mb-12 flex-1">
-                     {[
-                       "Zero Key System",
-                       "Early Alpha Access",
-                       "VIP Discord HQ",
-                       "Direct Dev Support",
-                       "Hidden Features"
-                     ].map(feat => (
-                       <li key={feat} className="flex items-center gap-3 text-sm text-zinc-100 font-black uppercase tracking-tight">
-                         <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(139,92,246,0.8)]" />
-                         {feat}
-                       </li>
-                     ))}
-                  </ul>
-                  <Button className="w-full py-8 rounded-xl bg-primary text-white font-black purple-glow hover:bg-primary/90 transition-all uppercase tracking-widest text-lg">
-                     Buy Premium Now!
-                  </Button>
-               </div>
-            </div>
+          <div className="relative p-[2px] rounded-[32px] overflow-hidden group h-full flex flex-col shadow-2xl">
+             <div className="absolute inset-0 bg-white/5 group-hover:bg-primary/20 transition-colors" />
+             <div className="relative bg-[#0a0a12] p-12 rounded-[31px] h-full flex flex-col border border-white/5">
+                <h3 className="text-2xl font-black text-white mb-2 uppercase italic tracking-tight">The Elite</h3>
+                <div className="flex items-baseline gap-1 mb-8">
+                   <span className="text-5xl font-black text-white">$5.99</span>
+                   <span className="text-zinc-500 text-sm font-bold uppercase">/ Month</span>
+                </div>
+                <ul className="space-y-4 mb-12 flex-1">
+                   {[
+                     "Zero Key System",
+                     "Early Alpha Access",
+                     "VIP Discord HQ",
+                     "Direct Dev Support",
+                     "Hidden Features"
+                   ].map(feat => (
+                     <li key={feat} className="flex items-center gap-3 text-sm text-zinc-100 font-black uppercase tracking-tight">
+                       <div className="w-2 h-2 rounded-full bg-primary" />
+                       {feat}
+                     </li>
+                   ))}
+                </ul>
+                <Button 
+                  onClick={() => handleBuyPremium({ name: "The Elite", price: "$5.99", duration: "/ Month" })}
+                  className="w-full py-8 rounded-xl bg-white/5 hover:bg-primary text-white font-black transition-all uppercase tracking-widest text-lg border border-white/10 hover:border-primary">
+                   Buy Premium Now!
+                </Button>
+             </div>
+          </div>
+
+          <div className="relative p-[2px] rounded-[32px] overflow-hidden group h-full flex flex-col shadow-2xl">
+             <div className="absolute inset-0 bg-gradient-to-br from-primary via-purple-600 to-pink-500 animate-gradient-x" />
+             <div className="relative bg-[#0a0a12] p-12 rounded-[31px] h-full flex flex-col">
+                <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-[10px] font-black text-primary uppercase tracking-widest">
+                   Best Value
+                </div>
+                <h3 className="text-2xl font-black text-white mb-2 uppercase italic tracking-tight">Immortal</h3>
+                <div className="flex items-baseline gap-1 mb-8">
+                   <span className="text-5xl font-black text-white">$xx.xx</span>
+                   <span className="text-zinc-500 text-sm font-bold uppercase">/ Life</span>
+                </div>
+                <ul className="space-y-4 mb-12 flex-1">
+                   {[
+                     "Everything in Elite",
+                     "Permanent Access",
+                     "Special Discord Role",
+                     "Custom Script Request",
+                     "Shield Team Insider"
+                   ].map(feat => (
+                     <li key={feat} className="flex items-center gap-3 text-sm text-zinc-100 font-black uppercase tracking-tight">
+                       <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(139,92,246,0.8)]" />
+                       {feat}
+                     </li>
+                   ))}
+                </ul>
+                <Button 
+                  onClick={() => handleBuyPremium({ name: "Immortal", price: "$xx.xx", duration: "/ Lifetime" })}
+                  className="w-full py-8 rounded-xl bg-primary text-white font-black purple-glow hover:bg-primary/90 transition-all uppercase tracking-widest text-lg">
+                   Get Lifetime Now!
+                </Button>
+             </div>
           </div>
         </div>
       </section>
+
+      <ScriptViewModal 
+        isOpen={isModalOpen} 
+        onOpenChange={setIsModalOpen} 
+        script={selectedScript} 
+      />
+
+      <PremiumPurchaseModal 
+        isOpen={isPurchaseModalOpen}
+        onOpenChange={setIsPurchaseModalOpen}
+        tier={selectedTier}
+      />
 
       {/* Status Report Section */}
       <section id="executors" className="py-32 bg-[#0a0a12]/50 border-y border-white/5">
@@ -368,21 +418,28 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
              {[
-               { name: "Bunni", status: "Support", color: "text-emerald-500" },
-               { name: "Wave", status: "Support", color: "text-emerald-500" },
-               { name: "Pottasium", status: "Support", color: "text-emerald-500" },
-               { name: "Synapse Z", status: "Support", color: "text-emerald-500" },
-               { name: "Delta", status: "Support", color: "text-emerald-500" },
-               { name: "Cosmic", status: "Support", color: "text-emerald-500" },
-               { name: "Ronix", status: "Support", color: "text-emerald-500" },
-               { name: "Selliware", status: "Support", color: "text-emerald-500" },
+               { name: "Bunni", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
+               { name: "Wave", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
+               { name: "Pottasium", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
+               { name: "Synapse Z", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
+               { name: "Delta", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
+               { name: "Cosmic", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
+               { name: "Ronix", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
+               { name: "Selliware", status: "Support", color: "text-emerald-500", downloadUrl: "#" },
              ].map((exec, i) => (
-               <div key={i} className="bg-[#050508] border border-white/5 p-6 rounded-2xl flex flex-col items-center gap-2 group hover:border-primary/20 transition-all shadow-lg">
-                  <span className="text-white font-black uppercase tracking-tight group-hover:text-primary transition-colors italic">{exec.name}</span>
-                  <div className="flex items-center gap-1.5">
-                     <div className={`w-1.5 h-1.5 rounded-full ${exec.color.replace('text', 'bg')} animate-pulse shadow-[0_0_8px_currentColor]`} />
-                     <span className={`text-[10px] font-black uppercase tracking-widest ${exec.color}`}>{exec.status}</span>
+               <div key={i} className="bg-[#050508] border border-white/5 p-5 rounded-2xl flex flex-col items-center gap-3 group hover:border-primary/20 transition-all shadow-lg">
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-white font-black uppercase tracking-tight group-hover:text-primary transition-colors italic">{exec.name}</span>
+                    <div className="flex items-center gap-1.5">
+                       <div className={`w-1.5 h-1.5 rounded-full ${exec.color.replace('text', 'bg')} animate-pulse shadow-[0_0_8px_currentColor]`} />
+                       <span className={`text-[9px] font-black uppercase tracking-widest ${exec.color}`}>{exec.status}</span>
+                    </div>
                   </div>
+                  <Button 
+                    onClick={() => window.open(exec.downloadUrl, '_blank')}
+                    className="w-full h-8 bg-white/5 hover:bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all border border-white/5 hover:border-primary">
+                    Download
+                  </Button>
                </div>
              ))}
           </div>
@@ -415,8 +472,12 @@ export default function Home() {
       <footer className="py-20 border-t border-white/5">
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center">
-               <Shield className="w-6 h-6 text-primary" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden border border-white/10">
+               <img 
+                 src="https://cdn.discordapp.com/attachments/1515588648639266966/1516436635988791447/IMG-20260615-WA0070.jpg?ex=6a32a32c&is=6a3151ac&hm=abcedd356fd74f7d6f4641a8f6ec76656e753b84bde155ef2f5b1b964925bc36&" 
+                 className="w-full h-full object-cover" 
+                 alt="Shield Team" 
+               />
             </div>
             <span className="font-black text-xl text-white uppercase italic tracking-tighter">Shield Team</span>
           </div>

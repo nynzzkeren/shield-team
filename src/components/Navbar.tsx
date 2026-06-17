@@ -35,12 +35,15 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2 group cursor-pointer">
-          <div className="relative">
-            <Shield className="w-8 h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
-            <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full group-hover:bg-primary/40 transition-colors" />
+        <div className="flex items-center gap-2 group cursor-pointer" onClick={() => window.location.href = '/'}>
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-white/10 group-hover:border-primary/40 transition-colors">
+            <img 
+              src="https://cdn.discordapp.com/attachments/1515588648639266966/1516436635988791447/IMG-20260615-WA0070.jpg?ex=6a32a32c&is=6a3151ac&hm=abcedd356fd74f7d6f4641a8f6ec76656e753b84bde155ef2f5b1b964925bc36&" 
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" 
+              alt="Shield Team Logo" 
+            />
           </div>
-          <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400 group-hover:to-white transition-all duration-500">
+          <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-zinc-400 group-hover:to-white transition-all duration-500 uppercase italic">
             Shield Team
           </span>
         </div>
